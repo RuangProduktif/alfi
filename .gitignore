@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+.env.local
+*.local
+
+dist-e2e
+test-results
+e2e/screenshots
+e2e/reports/visual

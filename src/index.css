@@ -1,0 +1,163 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design token Ritual. SATU-SATUNYA tempat nilai warna ditulis untuk antarmuka.
+ * Komponen hanya memakai kelas token (bg-surface, text-accent-text, ...), tidak pernah hex.
+ * Kontras setiap pasangan diukur oleh `npm run contrast` (scripts/check-contrast.mjs), yang membaca berkas ini.
+ *
+ * Lapisan permukaan (dari terjauh ke terdekat): bg (kanvas) → surface (kartu) → surface-2 (sumur/kolom isian) → surface-hover.
+ * Aksen aksi utama: hijau sage. Kategori memakai warna sendiri yang sengaja jauh dari hijau.
+ */
+:root {
+  color-scheme: light;
+  --bg: #e8ede7;
+  --surface: #fbfcfa;
+  --surface-2: #eff3ee;
+  --surface-hover: #e3e9e1;
+  --border: #d2dad0;
+  --input-border: #6e8074; /* batas kolom isian >= 3:1 (WCAG 1.4.11) */
+  --fg: #151e18;
+  --fg-2: #3c4a41; /* teks sekunder yang tegas (judul kecil, nilai) */
+  --muted: #526157;
+  --accent: #3f6b4e; /* latar tombol utama; teks --accent-fg di atasnya */
+  --accent-hover: #365c44;
+  --accent-fg: #ffffff;
+  --accent-text: #38634a; /* teks/tautan/ikon aksen di atas permukaan */
+  --accent-soft: color-mix(in srgb, var(--accent) 20%, var(--surface));
+  --success: #1c6e3c;
+  --danger: #b3261e;
+  --danger-hover: #9c1f19;
+  --danger-fg: #ffffff;
+
+  /* Kategori: ikon + warna aksen sendiri. Sengaja tidak ada hijau/sage dan tidak ada ungu. */
+  --cat-health: #a63243;
+  --cat-fitness: #944010;
+  --cat-learning: #2358aa;
+  --cat-productivity: #09627d;
+  --cat-finance: #725700;
+  --cat-mindfulness: #9c3269;
+  --cat-other: #535d76;
+
+  /* Heatmap aktivitas: 0 = tanpa penyelesaian, 1–4 = makin banyak */
+  --heat-0: var(--surface-hover);
+  --heat-1: #6d997b;
+  --heat-2: #538765;
+  --heat-3: #3d6f50;
+  --heat-4: #2a5a3c;
+
+  /* Navigasi bawah kapsul: latar solid semi-transparan sebagai cadangan; kaca blur bila didukung browser */
+  --nav-bg: rgb(251 252 250 / 0.94);
+  --nav-glass: rgb(251 252 250 / 0.78);
+  --nav-border: rgb(21 30 24 / 0.1);
+
+  --elev-card: 0 1px 2px rgb(21 30 24 / 0.06), 0 8px 20px -12px rgb(21 30 24 / 0.18);
+  --elev-float: 0 2px 4px rgb(21 30 24 / 0.08), 0 16px 32px -12px rgb(21 30 24 / 0.28);
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #0d110f;
+  --surface: #161c18;
+  --surface-2: #1d2520;
+  --surface-hover: #252e28;
+  --border: #2b362f;
+  --input-border: #6d7f73;
+  --fg: #edf2ee;
+  --fg-2: #c3cfc6;
+  --muted: #9bac9f;
+  --accent: #8fbb9b;
+  --accent-hover: #a2c8ad;
+  --accent-fg: #0b1a10;
+  --accent-text: #8fbb9b;
+  --accent-soft: color-mix(in srgb, var(--accent) 22%, var(--surface));
+  --success: #5ed38a;
+  --danger: #f4857c;
+  --danger-hover: #f8a29b;
+  --danger-fg: #2b0b09;
+
+  --cat-health: #ff8d9a;
+  --cat-fitness: #ffa56b;
+  --cat-learning: #86b4ff;
+  --cat-productivity: #5ccbe8;
+  --cat-finance: #e6c35c;
+  --cat-mindfulness: #ff90c6;
+  --cat-other: #b4bdd6;
+
+  --heat-0: var(--surface-hover);
+  --heat-1: #4a7859;
+  --heat-2: #629571;
+  --heat-3: #82b592;
+  --heat-4: #acd6b8;
+
+  --nav-bg: rgb(22 28 24 / 0.95);
+  --nav-glass: rgb(22 28 24 / 0.78);
+  --nav-border: rgb(237 242 238 / 0.12);
+
+  /* Bayangan hampir tak terlihat di latar gelap: lapisan dibedakan lewat warna permukaan + highlight tipis di tepi atas */
+  --elev-card: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 10px 24px -14px rgb(0 0 0 / 0.7);
+  --elev-float: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 18px 36px -12px rgb(0 0 0 / 0.8);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-hover: var(--surface-hover);
+  --color-border: var(--border);
+  --color-input-border: var(--input-border);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-fg: var(--accent-fg);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-danger-hover: var(--danger-hover);
+  --color-danger-fg: var(--danger-fg);
+  --color-cat-health: var(--cat-health);
+  --color-cat-fitness: var(--cat-fitness);
+  --color-cat-learning: var(--cat-learning);
+  --color-cat-productivity: var(--cat-productivity);
+  --color-cat-finance: var(--cat-finance);
+  --color-cat-mindfulness: var(--cat-mindfulness);
+  --color-cat-other: var(--cat-other);
+  --color-heat-0: var(--heat-0);
+  --color-heat-1: var(--heat-1);
+  --color-heat-2: var(--heat-2);
+  --color-heat-3: var(--heat-3);
+  --color-heat-4: var(--heat-4);
+  --color-nav: var(--nav-bg);
+  --color-nav-glass: var(--nav-glass);
+  --color-nav-border: var(--nav-border);
+  --shadow-card: var(--elev-card);
+  --shadow-float: var(--elev-float);
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
